@@ -36,11 +36,42 @@ export default function CameraTools({
         onPress={() => setCameraTorch((prev) => !prev)}
       />
       <IconButton
-        iconName={"flash"}
-        iconColor={"#ffffff"}
         onPress={() =>
-          setCameraFacing((prev) => (prev === "back" ? "front" : "back"))
+          setCameraFacing((prevValue) =>
+            prevValue === "back" ? "front" : "back"
+          )
         }
+        iconName="camera-outline"
+        iconColor="white"
+        width={25}
+        height={21}
+      />
+      <IconButton
+        onPress={() =>
+          setCameraFlash((falshValue) => (falshValue === "off" ? "on" : "off"))
+        }
+        iconName="flash"
+        iconColor="white"
+      />
+      <IconButton
+        onPress={() => {
+          // increment by .01
+          if (cameraZoom < 1) {
+            setCameraZoom((prevValue) => prevValue + 0.01);
+          }
+        }}
+        iconName="add-circle-outline"
+        iconColor="#ffffff"
+      />
+      <IconButton
+        onPress={() => {
+          // decrement by .01
+          if (cameraZoom > 0) {
+            setCameraZoom((prevValue) => prevValue - 0.01);
+          }
+        }}
+        iconName="close"
+        iconColor="#fff"
       />
     </View>
   );

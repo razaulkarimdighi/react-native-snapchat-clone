@@ -19,6 +19,8 @@ import BottomRowsTools from "@/components/BottomRowsTools";
 import MainRowActions from "@/components/MainRowActions";
 import QRCodeButton from "@/components/QrCodeButton";
 import CameraTools from "@/components/CameraTools";
+import PictureView from "@/components/PictureView";
+// import VideoViewComponent from "@/components/VideoView";
 
 export default function HomeScreen() {
   const cameraRef = React.useRef<CameraView>(null);
@@ -34,6 +36,16 @@ export default function HomeScreen() {
   const [cameraFacing, setCameraFacing] = React.useState<"front" | "back">(
     "back"
   );
+  const [picture, setPicture] = React.useState<string>("");
+  const [video, setVideo] = React.useState<string>(
+    "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+  ); //  "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+
+  async function handleTakePicture() {
+    const response = await cameraRef.current?.takePictureAsync({});
+    console.log(response?.uri);
+    setPicture(response!.uri);
+  }
 
   async function handleOpenQRCode() {
     console.log("testHandle");
@@ -61,6 +73,8 @@ export default function HomeScreen() {
   }
 
   if (isBrowsing) return <></>;
+  if (picture) return <PictureView picture={picture} setPicture={setPicture} />;
+  // if (video) return <VideoViewComponent video={video} setVideo={setVideo} />;
 
   return (
     <View style={{ flex: 1 }}>
@@ -95,7 +109,7 @@ export default function HomeScreen() {
 
             <MainRowActions
               cameraMode={cameraMode}
-              handleTakePicture={() => {}}
+              handleTakePicture={handleTakePicture}
               isRecording={false}
             />
             <BottomRowsTools
